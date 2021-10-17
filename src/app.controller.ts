@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Session, UseGuards } from "@nestjs/common";
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { AuthenticatedGuard } from './auth/authenticated.guard';
@@ -19,7 +19,11 @@ export class AppController {
 
   @UseGuards(AuthenticatedGuard)
   @Get('protected')
-  getHello(@Req() req): any {
+  getHello(
+    @Session() session: Record<string, any>,
+    @Req() req
+): any {
+    console.log('protected req.user',req.user)
     return req.user;
   }
 }
